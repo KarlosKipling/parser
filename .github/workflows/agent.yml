@@ -1,25 +1,32 @@
-name: AI Agent Runner (No API)
+import json
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
+print("🤖 AI AGENT STARTED")
 
-jobs:
-  run:
-    runs-on: ubuntu-latest
+chats = [
+    {"title": "Минск Новости", "members": 12000, "desc": "новости города"},
+    {"title": "Crypto Spam", "members": 300, "desc": "BUY NOW $$$"},
+    {"title": "Tech Chat", "members": 5400, "desc": "tech talk"}
+]
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+def score(chat):
+    s = 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
+    if chat.get("members", 0) > 5000:
+        s += 40
+    if "buy" in chat.get("desc", "").lower():
+        s -= 30
+    if "spam" in chat.get("title", "").lower():
+        s -= 40
 
-      - name: Run agent
-        run: python agent.py
+    return max(0, min(100, s))
+
+results = []
+
+for c in chats:
+    results.append({
+        "title": c["title"],
+        "score": score(c),
+        "status": "GOOD" if score(c) > 60 else "BAD"
+    })
+
+print(json.dumps(results, indent=2, ensure_ascii=False))

@@ -1,12 +1,37 @@
-import os
+import json
 
-print("🤖 AI AGENT STARTED")
+print("🤖 AI AGENT STARTED (NO API MODE)")
 
-# тут позже будет логика анализа кода
-print("📦 читаю проект...")
+# пример твоих данных (потом подключим Telegram parser)
+chats = [
+    {"title": "Минск Новости", "members": 12000, "desc": "новости города"},
+    {"title": "Crypto Pump Spam", "members": 300, "desc": "BUY NOW $$$"},
+    {"title": "Tech Chat", "members": 5400, "desc": "обсуждение технологий"}
+]
 
-print("🧠 анализирую парсер...")
+def score(chat):
+    s = 0
 
-print("✏️ улучшаю код...")
+    if chat["members"] > 5000:
+        s += 40
+    if "buy" in chat["desc"].lower():
+        s -= 30
+    if "spam" in chat["title"].lower():
+        s -= 50
+    if "crypto" in chat["desc"].lower():
+        s -= 20
 
-print("✅ готово (пока заглушка)")
+    return max(0, min(100, s))
+
+results = []
+
+for c in chats:
+    results.append({
+        "title": c["title"],
+        "score": score(c),
+        "status": "GOOD" if score(c) > 60 else "BAD"
+    })
+
+results = sorted(results, key=lambda x: x["score"], reverse=True)
+
+print(json.dumps(results, indent=2, ensure_ascii=False))

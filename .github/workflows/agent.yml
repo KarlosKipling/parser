@@ -1,12 +1,12 @@
-name: AI Agent Runner
+name: AI Agent Runner (No API)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */6 * * *"  # каждые 6 часов
+    - cron: "0 */6 * * *"
 
 jobs:
-  run-agent:
+  run:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +18,5 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install openai github3.py
-
-      - name: Run AI Agent
+      - name: Run agent
         run: python agent.py

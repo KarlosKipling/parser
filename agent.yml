@@ -1,1 +1,12 @@
-.github/workflows/agent.yml
+import os
+
+print("🤖 AI AGENT STARTED")
+
+# тут позже будет логика анализа кода
+print("📦 читаю проект...")
+
+print("🧠 анализирую парсер...")
+
+print("✏️ улучшаю код...")
+
+print("✅ готово (пока заглушка)")
